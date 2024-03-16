@@ -22,10 +22,15 @@ const readFile = (path) => {
 const server = http.createServer(async (request, response) => {
     switch (request.url) {
         case '/home': {
-            const data = await readFile('pages/home.html')
-            response.write(data)
-            response.end()
-            break
+            try {
+                const data = await readFile('pages/home.html')
+                response.write(data)
+                response.end()
+            } catch (err) {
+                response.write('something wrong, 500')
+                response.end()
+            }
+
         }
         case '/about': {
             await delay(10000)
