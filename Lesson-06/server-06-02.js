@@ -9,15 +9,22 @@ const delay = (ms) => {
     })
 }
 
+const readFile = (path) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, (err, data) => {
+            if (err) {
+                reject('500 , some error occured')
+            } else resolve(data)
+        })
+    })
+}
+
 const server = http.createServer(async (request, response) => {
     switch (request.url) {
         case '/home': {
-            fs.readFile('pages/home.html', (err, data) => {
-                if (err) {
-                    response.write('500 , some error occured')
-                } else response.write(data)
-                response.end()
-            })
+            const data = await readFile('pages/home.html')
+            response.write(data)
+            response.end()
             break
         }
         case '/about': {
