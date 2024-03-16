@@ -3,15 +3,20 @@ const fs = require('fs')
 
 const server = http.createServer((request, response) => {
     switch (request.url) {
-        case '/about': {
-            const data = fs.readFileSync('pages/about.html')
-            response.write(data)
+        case '/home': {
+            fs.readFile('pages/about3.html', (err, data) => {
+                if (err) {
+                    response.write('500 , some error occured')
+                } else response.write(data)
+                response.end()
+            })
             break
         }
+
         default: {
             response.write('404 not found')
+            response.end()
         }
     }
-    response.end()
 })
 server.listen(3003)
