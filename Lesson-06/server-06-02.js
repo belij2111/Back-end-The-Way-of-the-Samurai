@@ -1,7 +1,15 @@
 const http = require('http')
 const fs = require('fs')
 
-const server = http.createServer((request, response) => {
+const delay = (ms) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve()
+        }, ms)
+    })
+}
+
+const server = http.createServer(async (request, response) => {
     switch (request.url) {
         case '/home': {
             fs.readFile('pages/home.html', (err, data) => {
@@ -13,10 +21,9 @@ const server = http.createServer((request, response) => {
             break
         }
         case '/about': {
-            setTimeout(() => {
-                response.write('about course')
-                response.end()
-            }, 5000)
+            await delay(10000)
+            response.write('about course')
+            response.end()
             break
         }
 
