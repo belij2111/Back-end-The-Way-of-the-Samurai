@@ -3,21 +3,20 @@ import express from 'express'
 const app = express()
 const port = 3000
 
-app.get('/courses', (req, res) => {
-    res.json([
+const db = {
+    courses: [
         {id: 1, title: 'front-end'},
         {id: 2, title: 'back-end'},
         {id: 3, title: 'automation qa'},
         {id: 4, title: 'devops'}
-    ])
+    ]
+}
+
+app.get('/courses', (req, res) => {
+    res.json(db.courses)
 })
 app.get('/courses/:id', (req, res) => {
-    const foundCourse = [
-        {id: 1, title: 'front-end'},
-        {id: 2, title: 'back-end'},
-        {id: 3, title: 'automation qa'},
-        {id: 4, title: 'devops'}
-    ].find(c => c.id === +req.params.id)
+    const foundCourse = db.courses.find(c => c.id === +req.params.id)
     if (!foundCourse) {
         res.sendStatus(404)
         return
