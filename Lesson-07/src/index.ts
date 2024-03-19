@@ -1,20 +1,25 @@
 import express from 'express'
+
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-    const a = 8
-    if (a > 5) {
-        res.send('Ok!')
-    } else {
-        res.send('Hello World')
-    }
+app.get('/courses', (req, res) => {
+    res.json([
+        {id: 1, title: 'front-end'},
+        {id: 2, title: 'back-end'},
+        {id: 3, title: 'automation qa'},
+        {id: 4, title: 'devops'}
+    ])
 })
-app.get('/mainGet', (req, res) => {
-    res.send('Hello main GET!')
-})
-app.post('/mainGet', (req, res) => {
-    res.send('create main POST!')
+app.get('/courses/:id', (req, res) => {
+    const foundCourse = [
+        {id: 1, title: 'front-end'},
+        {id: 2, title: 'back-end'},
+        {id: 3, title: 'automation qa'},
+        {id: 4, title: 'devops'}
+    ].find(c => c.id === +req.params.id)
+
+    res.json(foundCourse)
 })
 
 app.listen(port, () => {
