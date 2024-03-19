@@ -13,7 +13,10 @@ const db = {
 }
 
 app.get('/courses', (req, res) => {
-    const foundCourses = db.courses.filter(c => c.title.indexOf(req.query.title as string) > -1)
+    let foundCourses = db.courses
+    if (req.query.title) {
+        foundCourses = foundCourses.filter(c => c.title.indexOf(req.query.title as string) > -1)
+    }
     res.json(foundCourses)
 })
 app.get('/courses/:id', (req, res) => {
