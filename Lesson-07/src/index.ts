@@ -18,7 +18,10 @@ app.get('/courses/:id', (req, res) => {
         {id: 3, title: 'automation qa'},
         {id: 4, title: 'devops'}
     ].find(c => c.id === +req.params.id)
-
+    if (!foundCourse) {
+        res.sendStatus(404)
+        return
+    }
     res.json(foundCourse)
 })
 
