@@ -39,7 +39,7 @@ app.post('/courses', (req, res) => {
     };
     db.courses.push(courseCreate)
     console.log(courseCreate)
-    res.json(courseCreate)
+    res.status(201).json(courseCreate)
 })
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
