@@ -29,6 +29,10 @@ app.get('/courses/:id', (req, res) => {
     res.json(foundCourse)
 })
 app.post('/courses', (req, res) => {
+    if (!req.body.title){
+        res.sendStatus(400)
+        return
+    }
     const courseCreate = {
         id: +(new Date()),
         title: req.body.title
