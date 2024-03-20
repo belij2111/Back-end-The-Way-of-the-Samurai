@@ -2,6 +2,16 @@ import express from 'express'
 
 const app = express()
 const port = 3000
+
+const HTTP_STATUSES = {
+    OK_200:200,
+    CREATED_201:201,
+    NO_CONTENT_204:204,
+
+    BAD_REQUEST_400:400,
+    NOT_FOUND_404:404
+}
+
 const jsonBodyMiddleware = express.json()
 app.use(jsonBodyMiddleware)
 const db = {
@@ -30,7 +40,7 @@ app.get('/courses/:id', (req, res) => {
 })
 app.post('/courses', (req, res) => {
     if (!req.body.title){
-        res.sendStatus(400)
+        res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400)
         return
     }
     const courseCreate = {
@@ -39,25 +49,25 @@ app.post('/courses', (req, res) => {
     };
     db.courses.push(courseCreate)
     console.log(courseCreate)
-    res.status(201).json(courseCreate)
+    res.status(HTTP_STATUSES.CREATED_201).json(courseCreate)
 })
 app.delete('/courses/:id', (req, res) => {
     db.courses = db.courses.filter(c => c.id !== +req.params.id)
 
-    res.sendStatus(204)
+    res.sendStatus(HTTP_STATUSES.NO_CONTENT_204)
 })
 app.put('/courses/:id', (req, res) => {
     if (!req.body.title){
-        res.sendStatus(400)
+        res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400)
         return
     }
     const foundCourse = db.courses.find(c=>c.id===+req.params.id)
     if (!foundCourse){
-        res.sendStatus(404)
+        res.sendStatus(HTTP_STATUSES.NOT_FOUND_404)
         return;
     }
     foundCourse.title = req.body.title
-    res.sendStatus(204)
+    res.sendStatus(HTTP_STATUSES.NO_CONTENT_204)
 })
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
